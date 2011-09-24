@@ -23,6 +23,7 @@ public class login:dbClass
 	}
     public object userCheck(string email, string pass)
     {
+        
         sql = "SELECT * FROM Users WHERE emailId='" + email + "' AND password='" + pass + "'";
         //da = new SqlDataAdapter(sql, con);
         //ds = new DataSet();
@@ -37,10 +38,9 @@ public class login:dbClass
             if (dr.HasRows)
             {
                 ob.userId = dr.GetInt32(0);
-                ob.userName = dr.GetString(1);
-                ob.password = dr.GetString(2);
-                ob.emailId = dr.GetString(3);
-                ob.lastTimeLogin = dr.GetDateTime(4);
+                ob.password = dr.GetString(1);
+                ob.emailId = dr.GetString(2);
+                ob.lastTimeLogin = dr.GetDateTime(3);
 
             }
 

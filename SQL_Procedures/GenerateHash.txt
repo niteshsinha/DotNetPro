@@ -1,0 +1,4 @@
+create procedure GenerateHash(@hash char(32))
+as
+INSERT INTO Hashtable values (@hash)
+SELECT SCOPE_IDENTITY() as id ;

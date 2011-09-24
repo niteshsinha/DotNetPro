@@ -18,10 +18,11 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void Login1_Authenticate(object sender, AuthenticateEventArgs e)
     {
-        login ob = new login();
+        login ob = new login();   
         Users obj = (Users)ob.userCheck(Login1.UserName, Login1.Password);
         if(obj.userId != 0)
         {
+            
             FormsAuthentication.RedirectFromLoginPage(Login1.UserName,false);
         }
         else

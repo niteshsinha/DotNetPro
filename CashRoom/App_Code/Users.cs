@@ -16,7 +16,6 @@ using System.Xml.Linq;
 public class Users
 {
     public int userId { get; set; }
-    public string userName { get; set; }
     public string password { get; set; }
     public string emailId { get; set; }
     public DateTime lastTimeLogin { get; set; }

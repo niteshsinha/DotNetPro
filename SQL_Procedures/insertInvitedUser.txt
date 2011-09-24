@@ -1,0 +1,24 @@
+create procedure insertInvitedUser(@uid int,
+									@pass varchar(50),
+							@email varchar(50),
+							@ltl datetime,
+							@fname varchar(50),
+							@lname varchar(50),
+							@con int,
+							@dobb datetime,
+							@dojj datetime,
+							@status char(1) = 1,
+							@secQuesId int,
+							@secAns varchar(250),
+							@hash varchar(32))
+as
+DECLARE @hid int
+DECLARE @orig_gid int
+
+INSERT INTO Users VALUES (@uid,@pass,@email,@ltl)
+INSERT INTO RegistrationDetails VALUES (@uid,@fname,@lname,@con,@dobb,@dojj,@status,@secQuesId,@secAns)
+
+SELECT @hid=hashId FROM Hashtable WHERE hash=@hash
+
+SELECT @orig_gid=groupId FROM Invitation WHERE hashId=@hid
+INSERT INTO Users_Group VALUES (@orig_gid,@uid)

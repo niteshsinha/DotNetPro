@@ -27,7 +27,7 @@ public class dbClass
          public string sql;
         public dbClass()
         {
-            con = new SqlConnection("Integrated Security=SSPI;database=CashRoomdb;data source=TRAINING-7\\SQLEXPRESS");
+            con = new SqlConnection("Integrated Security=SSPI;database=CashRoomdb;data source=NITESH-PC\\SQLEXPRESS");
             con.Open();
         }
         public bool returnState()
@@ -41,6 +41,7 @@ public class dbClass
         {
             con.Close();
         }
+        
         public int GetMaxId(string idField, string tablename, int initval, int diff)
         {
                 sql = "SELECT MAX(" + idField + ") AS id FROM " + tablename;
@@ -64,6 +65,31 @@ public class dbClass
         {
             DateTime dt = DateTime.Now;
             return (String.Format("{0:dd/MM/yyyy}", dt));
+        }
+        //this is to return the UNIX time stamp
+        public double getUnixTime()
+        {
+            TimeSpan _TimeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
+
+            return (_TimeSpan.TotalSeconds);
+        }
+        // this is to return a unique 32bit MD5 hash
+        public int getHashId()
+        {
+            
+            string hash = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(DateTime.Now.ToString(), "md5");
+            cmd = new SqlCommand("Generatehash", con);
+            SqlParameter sp_hash = new SqlParameter("@hash", hash);
+            cmd.Parameters.Add(sp_hash);
+            cmd.CommandType = CommandType.StoredProcedure;
+            dr = cmd.ExecuteReader();
+            int hid = 0;
+            if (dr.Read())
+            {
+                hid = dr.GetInt32(0);
+
+            }
+            return hid;
         }
         public bool isNumeric(string value)
         {
@@ -101,13 +127,6 @@ public class FinalTransaction
     public int eventId { get; set; }
     public int groupId { get; set; }
 }
-public class Groups
-{
-    public int groupId { get; set; }
-    public string groupName { get; set; }
-    public int cardinality { get; set; }
-    public int groupTypeId { get; set; }
-}
 public class GroupType
 {
     public int groupTypeId { get; set; }
@@ -121,8 +140,10 @@ public class Hashtable
 public class Invitation
 {
     public int invitationId { get; set; }
+    public string name { get; set; }
     public string toEmail { get; set; }
     public int fromId { get; set; }
+    public int groupId { get; set; }
     public int hashId { get; set; }
     public char accepted { get; set; }
 }
@@ -170,6 +191,8 @@ public class RegisterationDetails
     public DateTime dob { get; set; }
     public DateTime doj { get; set; }
     public char status { get; set; }
+    public int secQuesId { get; set; }
+    public string secAns { get; set; }
 }
 public class Settlement
 {
